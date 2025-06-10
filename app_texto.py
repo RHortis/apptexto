@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 import os
+import time
 
 CHAT_FILE = "chat.csv"
 
@@ -34,7 +35,7 @@ st.write("---")
 username = st.text_input("Seu nome", key="username")
 message = st.text_input("Sua mensagem", key="message")
 
-col1, col2, col3, col4 = st.columns((0.4,0.6,2,0.48))
+col1, col2, col3, col4 = st.columns((0.4, 0.6, 2, 0.48))
 
 with col1:
     if st.button("Enviar"):
@@ -51,13 +52,9 @@ with col1:
             save_chat(chat_data)
             st.rerun()  # Recarrega a página para atualizar o chat
 
-
 with col2:
     if st.button("Limpar chat"):
         aux_timestamp = datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
-        # if os.path.exists(CHAT_FILE):
-        #     novo_nome = f"chat_temp_{aux_timestamp}.csv"
-        #     os.rename(CHAT_FILE, novo_nome)
         chat_data = pd.DataFrame(columns=["timestamp", "user", "message"])
         save_chat(chat_data)
         st.rerun()
@@ -65,3 +62,7 @@ with col2:
 with col4:
     if st.button("Atualizar"):
         st.rerun()
+
+# Rerun automático a cada 10 segundos
+time.sleep(10)
+st.rerun()
