@@ -59,14 +59,20 @@ with col2:
         save_chat(chat_data)
         st.rerun()
 
+# with col4:
+#     if st.button("Iniciar Videochamada"):
+#         meet_link = f"https://meet.jit.si/atendimento_{username}_{int(time.time())}"
+#         st.markdown(f"[Clique aqui para iniciar a videochamada]({meet_link})")
+
 with col4:
     if st.button("Iniciar Videochamada"):
         meet_link = f"https://meet.jit.si/atendimento_{username}_{int(time.time())}"
         st.markdown(f"[Clique aqui para iniciar a videochamada]({meet_link})")
+
 with col5:
     if st.button("Atualizar"):
         st.rerun()
 
 # Rerun automático a cada 10 segundos
-# time.sleep(10)
-# st.rerun()
+time.sleep(10)
+st.rerun()
