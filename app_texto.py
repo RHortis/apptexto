@@ -35,7 +35,7 @@ st.write("---")
 username = st.text_input("Seu nome", key="username")
 message = st.text_input("Sua mensagem", key="message")
 
-col1, col2, col3, col4 = st.columns((0.4, 0.6, 2, 0.48))
+col1, col2, col3, col4, col5 = st.columns((0.3, 0.5, 0.3, 0.5, 0.26))
 
 with col1:
     if st.button("Enviar"):
@@ -60,9 +60,13 @@ with col2:
         st.rerun()
 
 with col4:
+    if st.button("Iniciar Videochamada"):
+        meet_link = f"https://meet.jit.si/atendimento_{username}_{int(time.time())}"
+        st.markdown(f"[Clique aqui para iniciar a videochamada]({meet_link})")
+with col5:
     if st.button("Atualizar"):
         st.rerun()
 
 # Rerun automático a cada 10 segundos
-time.sleep(10)
-st.rerun()
+# time.sleep(10)
+# st.rerun()
