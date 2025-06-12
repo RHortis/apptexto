@@ -35,37 +35,7 @@ st.write("---")
 username = st.text_input("Seu nome", key="username")
 message = st.text_input("Sua mensagem", key="message")
 
-col1, col2, col3, col4 = st.columns((0.4, 0.6, 2, 0.48))
-
-# Botão para ativar a câmera
-with col3:
-    camera_active = st.checkbox("Habilitar câmera")
-
-if camera_active:
-    img_file_buffer = st.camera_input("Tire uma foto")
-    if img_file_buffer is not None:
-        # Se quiser, pode salvar a imagem em disco:
-        img_bytes = img_file_buffer.getvalue()
-        img_filename = f"camera_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
-        with open(img_filename, "wb") as f:
-            f.write(img_bytes)
-        
-        st.image(img_file_buffer, caption="Foto capturada", use_column_width=True)
-
-        # Opcional: enviar a imagem como mensagem (exemplo: link para o arquivo salvo)
-        if st.button("Enviar foto"):
-            if username.strip() == "":
-                st.warning("Digite seu nome antes de enviar.")
-            else:
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                new_message = pd.DataFrame([{
-                    "timestamp": timestamp,
-                    "user": username,
-                    "message": f"Foto: {img_filename}",
-                }])
-                chat_data = pd.concat([chat_data, new_message], ignore_index=True)
-                save_chat(chat_data)
-                st.rerun()
+col1, col2, col3, col4, col5 = st.columns((0.3, 0.5, 0.3, 0.5, 0.26))
 
 with col1:
     if st.button("Enviar"):
@@ -84,14 +54,19 @@ with col1:
 
 with col2:
     if st.button("Limpar chat"):
+        aux_timestamp = datetime.now().strftime("%Y_%m_%d__%H_%M_%S")
         chat_data = pd.DataFrame(columns=["timestamp", "user", "message"])
         save_chat(chat_data)
         st.rerun()
 
 with col4:
+    if st.button("Iniciar Videochamada"):
+        meet_link = f"https://meet.jit.si/atendimento_{username}_{int(time.time())}"
+        st.markdown(f"[Clique aqui para iniciar a videochamada]({meet_link})")
+with col5:
     if st.button("Atualizar"):
         st.rerun()
 
 # Rerun automático a cada 10 segundos
-time.sleep(10)
-st.rerun()
+# time.sleep(10)
+# st.rerun()
